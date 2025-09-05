@@ -9,3 +9,9 @@ export async function addPlaylistTracks(trackId, playlistId) {
     const { rows: playlistTrack } = await db.query(sql, [trackId, playlistId])
     return playlistTrack
 }
+
+export async function tracksByPlaylistId(playlistId) {
+    const sql = `select * from playlist_tracks where playlist_id = $1`
+    const { rows: tracksByPlaylistId } = await db.query(sql, [playlistId])
+    return tracksByPlaylistId
+}
