@@ -24,5 +24,5 @@ tracksRouter.route('/:id').get((req, res) => {
 
 tracksRouter.use((err, req, res, next) => {
     console.error(err);
-    res.status(500).send("Error on tracksRouter");
+    res.status(400).send("Error on tracksRouter");
 });

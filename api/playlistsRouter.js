@@ -11,6 +11,7 @@ playlistsRouter.route('/')
     })
     .post(async (req, res) => {
         const { name, description } = req.body
+        if (!name || !description) return res.status(400).send("Request body requires: name, description");
         const newPlaylist = await addPlaylist(name, description)
         res.status(201).send(newPlaylist)
     })
@@ -34,12 +35,14 @@ playlistsRouter.route('/:id/tracks')
         res.send(tracksByPlaylist)
     })
     .post(async (req, res) => {
-        const { track_id: trackId } = req.body
+        const { trackId } = req.body
+        if (!req.body) return res.status(400).send("Request body is required.");
+        if (!trackId) return res.status(400).send("Request body requires: trackId");
         const tracksByPlaylist = await addPlaylistTracks(trackId, req.playlist.id)
         res.status(201).send(tracksByPlaylist)
     })
 
 playlistsRouter.use((err, req, res, next) => {
     console.error(err);
-    res.status(500).send("Error on playlistsRouter");
+    res.status(400).send("Error on playlistsRouter");
 });
